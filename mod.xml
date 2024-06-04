@@ -1,8 +1,7 @@
 
 <Mod
 	name="Wand Speed"
-	description="show wand speed in the wand description"
-	request_no_api_restrictions="0"	
+	description="show wands speed multiplier"
 >
 </Mod>
 	
