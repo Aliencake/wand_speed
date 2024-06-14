@@ -32,33 +32,8 @@ local function GetInventoryWands()
     return reverseTable(_wands_speed_stats)
 end
 
-local function render_widget(x, y, header, gap)
-    gui = gui or GuiCreate()
 
-    local text_x_index = x
-    local text_y_index = y
-
-    local wands_speed_stats = GetInventoryWands()
-
-    GuiStartFrame(gui)
-
-    GuiBeginAutoBox(gui)
-
-    GuiText(gui, text_x_index, text_y_index, header)
-
-    text_y_index = text_y_index + gap
-
-    for k, v in pairs(wands_speed_stats or {}) do
-        GuiText(gui, text_x_index, text_y_index, (k .. ": " .. v))
-        text_y_index = text_y_index + 10
-    end
-
-    GuiZSetForNextWidget(gui, 1000)
-    GuiEndAutoBoxNinePiece(gui)
-end
-
-
-function OnPlayerSpawned(player_entity) 
+function OnPlayerSpawned(player_entity)
     player = player_entity
 end
 
@@ -72,12 +47,59 @@ end
 
 function OnPausePreUpdate()
     if inventory_pause then
-        render_widget(60, 31, "Speed multiplier of wands:", 20)
+        gui = gui or GuiCreate()
+
+        local text_x_index = 60
+        local text_y_index = 31
+        local gap = 20
+
+        local wands_speed_stats = GetInventoryWands()
+
+        GuiStartFrame(gui)
+
+        GuiBeginAutoBox(gui)
+
+        GuiText(gui, text_x_index, text_y_index, "Speed multiplier of wands:")
+
+        text_y_index = text_y_index + gap
+
+        for k, v in pairs(wands_speed_stats or {}) do
+            GuiText(gui, text_x_index, text_y_index, (k .. ": " .. v))
+            text_y_index = text_y_index + 10
+        end
+
+        GuiZSetForNextWidget(gui, 1)
+        GuiEndAutoBoxNinePiece(gui)
     end
 end
 
 function OnWorldPreUpdate()
     if GameIsInventoryOpen() == true then
-        render_widget(522, 10, "sm:", 15)
+        gui = gui or GuiCreate()
+
+        local text_x_index = 22
+        local text_y_index = 330
+        local gap = 12
+
+        local wands_speed_stats = GetInventoryWands()
+
+        GuiStartFrame(gui)
+
+        GuiBeginAutoBox(gui)
+
+        GuiText(gui, text_x_index, text_y_index, "Speed multiplier of wands:")
+
+        text_y_index = text_y_index + gap
+
+        for k, v in pairs(wands_speed_stats or {}) do
+            local text = k .. ": " .. v
+            GuiText(gui, text_x_index, text_y_index, text)
+            local text_x_dimention, text_y_dimention = GuiGetTextDimensions(gui, text)
+
+            text_x_index = text_x_index + text_x_dimention + 5
+        end
+
+        GuiZSetForNextWidget(gui, 1)
+        GuiEndAutoBoxNinePiece(gui, 2)
     end
 end
